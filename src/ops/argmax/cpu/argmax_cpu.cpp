@@ -6,7 +6,7 @@ template <typename T>
 void argmax_(int64_t *max_idx, T *max_val, const T *vals, size_t numel) {
     if (numel == 0) throw std::runtime_error("vals is empty");
     size_t idx = 0;
-    float value = llaisys::utils::cast<float(vals[0]);
+    float value = llaisys::utils::cast<float>(vals[0]);
     for (size_t i = 1; i < numel; ++i) {
         float current = llaisys::utils::cast<float>(vals[i]);
         if (current > value) {
