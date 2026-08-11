@@ -164,27 +164,62 @@ void Tensor::debug() const {
 }
 
 bool Tensor::isContiguous() const {
-    TO_BE_IMPLEMENTED();
+    ptrdiff_t expected = 1;
+    for (size_t i = this->ndim(); i > 0; --i) {
+        if (this->strides()[i - 1] != expected) return false;
+        expected *= this->shape()[i - 1];
+    }
     return true;
 }
 
 tensor_t Tensor::permute(const std::vector<size_t> &order) const {
-    TO_BE_IMPLEMENTED();
-    return std::shared_ptr<Tensor>(new Tensor(_meta, _storage));
+    if (order.size() != this->ndim()) throw std::runtime_error("permute: order size mismatch");
+
+    TensorMeta m = _meta;
+    for (size_t i = 0; i < order.size(); ++i) {
+        m.shape[i] = _meta.shape[order[i]];
+        m.strides[i] = _meta.strides[order[i]];
+    }
+
+    return std::shared_ptr<Tensor>(new Tensor(m, _storage, _offset));
 }
 
 tensor_t Tensor::view(const std::vector<size_t> &shape) const {
-    TO_BE_IMPLEMENTED();
-    return std::shared_ptr<Tensor>(new Tensor(_meta, _storage));
+    size_t new_numel = 1;
+    for (auto s : shape) new_numel *= s;
+    if (new_numel != this->numel()) throw std::runtime_error("view: numel mismatch");
+    if (!this->isContiguous()) throw std::runtime_error("view: tensor not contiguous");
+
+    std::vector<ptrdiff_t> strides(shape.size());
+    size_t stride = 1;
+    for (size_t i = shape.size(); i > 0; --i) {
+        strides[i - 1] = stride;
+        stride *= shape[i - 1];
+    }
+    TensorMeta meta{_meta.dtype, shape, strides};
+    return std::shared_ptr<Tensor>(new Tensor(meta, _storage, _offset));
 }
 
 tensor_t Tensor::slice(size_t dim, size_t start, size_t end) const {
-    TO_BE_IMPLEMENTED();
-    return std::shared_ptr<Tensor>(new Tensor(_meta, _storage));
+    if (dim >= this->ndim() || start >= end || end > _meta.shape[dim])
+        throw std::runtime_error("slice out of bound");
+    TensorMeta m = _meta;
+    m.shape[dim] = end - start;
+    size_t new_offset = _offset + start * _meta.strides[dim] * this->elementSize();
+    return std::shared_ptr<Tensor>(new Tensor(m, _storage, new_offset));
 }
 
+// Load data from host memory
 void Tensor::load(const void *src_) {
-    TO_BE_IMPLEMENTED();
+    size_t bytes = numel() * elementSize();
+    if (this->deviceType() == LLAISYS_DEVICE_CPU) {
+        std::memcpy(this->data(), src_, bytes);
+    } else {
+        core::context().setDevice(this->deviceType(), this->deviceId());
+        core::context().runtime().api()->memcpy_sync(
+            this->data(), src_, bytes, LLAISYS_MEMCPY_H2D
+        );
+    }
 }
 
 tensor_t Tensor::contiguous() const {
