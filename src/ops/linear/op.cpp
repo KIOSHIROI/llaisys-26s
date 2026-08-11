@@ -1,7 +1,18 @@
 #include "op.hpp"
-
+#include "cpu/linear_cpu.hpp"
 namespace llaisys::ops {
 void linear(tensor_t out, tensor_t in, tensor_t weight, tensor_t bias) {
-    TO_BE_IMPLEMENTED();
+    llaisys::core::context().setDevice(weight->deviceType(), weight->deviceId());
+
+    switch (weight->deviceType()) {
+        case LLAISYS_DEVICE_CPU:
+            return cpu::linear(out->data(), in->data(), weight->data(), bias->data(), weight->dtype(), in->shape()[0], weight->shape()[1], weight->shape()[0]);
+    #ifdef ENABLE_NVIDIA_API
+        case LLAISYS_DEVICE_NVIDIA:
+            return nvidia::linear(out->data(), in->data(), weight->data(), bias->data(), weight->dtype(), in->shape()[0], weight->shape()[1], weight->shape()[0]);
+    #endif
+        default:
+            EXCEPTION_UNSUPPORTED_DEVICE;
+        }
 }
 } // namespace llaisys::ops
