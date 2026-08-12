@@ -18,16 +18,16 @@ if has_config("nv-gpu") then
     includes("xmake/nvidia.lua")
 end
 
--- Moore Threads (MUSA) --
-option("musa-gpu")
+-- Iluvatar (CoreX CUDA-compatible GPU) --
+option("iluvatar-gpu")
     set_default(false)
     set_showmenu(true)
-    set_description("Whether to compile implementations for Moore Threads MUSA GPU")
+    set_description("Whether to compile implementations for Iluvatar CoreX GPU")
 option_end()
 
-if has_config("musa-gpu") then
-    add_defines("ENABLE_MUSA_API")
-    includes("xmake/musa.lua")
+if has_config("iluvatar-gpu") then
+    add_defines("ENABLE_ILUVATAR_API")
+    includes("xmake/iluvatar.lua")
 end
 
 target("llaisys-utils")

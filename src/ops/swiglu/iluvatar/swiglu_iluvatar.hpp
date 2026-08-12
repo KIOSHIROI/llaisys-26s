@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-namespace llaisys::ops::musa {
+namespace llaisys::ops::iluvatar {
 void swiglu(std::byte *out, const std::byte *gate, const std::byte *up,
             llaisysDataType_t type, size_t u, size_t v);
 }

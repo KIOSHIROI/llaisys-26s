@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-namespace llaisys::ops::musa {
+namespace llaisys::ops::iluvatar {
 void rms_norm(std::byte *out, const std::byte *in, const std::byte *weight, float eps,
               llaisysDataType_t type, size_t u, size_t v);
 }

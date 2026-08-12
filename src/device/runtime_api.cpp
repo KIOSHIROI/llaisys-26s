@@ -81,9 +81,9 @@ const LlaisysRuntimeAPI *getRuntimeAPI(llaisysDeviceType_t device_type) {
 #else
         return getUnsupportedRuntimeAPI();
 #endif
-    case LLAISYS_DEVICE_MUSA:
-#ifdef ENABLE_MUSA_API
-        return llaisys::device::musa::getRuntimeAPI();
+    case LLAISYS_DEVICE_ILUVATAR:
+#ifdef ENABLE_ILUVATAR_API
+        return llaisys::device::iluvatar::getRuntimeAPI();
 #else
         return getUnsupportedRuntimeAPI();
 #endif

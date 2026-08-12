@@ -188,14 +188,10 @@ def torch_device(device_name: str, device_id=0):
         return torch.device("cpu")
     elif device_name == "nvidia":
         return torch.device(f"cuda:{device_id}")
-    elif device_name == "musa":
-        # Reference model: use torch_musa when installed, else fall back to
-        # CPU — tokens are identical, only speed differs.
-        try:
-            import torch_musa  # noqa: F401
-            return torch.device(f"musa:{device_id}")
-        except ImportError:
-            return torch.device("cpu")
+    elif device_name == "iluvatar":
+        # Iluvatar CoreX is CUDA-compatible: torch sees the BI-V150 as a
+        # cuda device, so the reference model runs on cuda:{id}.
+        return torch.device(f"cuda:{device_id}")
     else:
         raise ValueError(f"Unsupported device name: {device_name}")
 
@@ -205,8 +201,8 @@ def llaisys_device(device_name: str):
         return llaisys.DeviceType.CPU
     elif device_name == "nvidia":
         return llaisys.DeviceType.NVIDIA
-    elif device_name == "musa":
-        return llaisys.DeviceType.MUSA
+    elif device_name == "iluvatar":
+        return llaisys.DeviceType.ILUVATAR
     else:
         raise ValueError(f"Unsupported device name: {device_name}")
 
@@ -216,8 +212,8 @@ def device_name(llaisys_device: llaisys.DeviceType):
         return "cpu"
     elif llaisys_device == llaisys.DeviceType.NVIDIA:
         return "nvidia"
-    elif llaisys_device == llaisys.DeviceType.MUSA:
-        return "musa"
+    elif llaisys_device == llaisys.DeviceType.ILUVATAR:
+        return "iluvatar"
     else:
         raise ValueError(f"Unsupported llaisys device: {llaisys_device}")
 

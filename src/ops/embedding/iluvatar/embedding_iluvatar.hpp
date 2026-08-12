@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-namespace llaisys::ops::musa {
+namespace llaisys::ops::iluvatar {
 void embedding(std::byte *out, const std::byte *index, const std::byte *weight,
                llaisysDataType_t type, size_t numel);
 }

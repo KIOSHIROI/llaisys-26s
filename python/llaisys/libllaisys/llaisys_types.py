@@ -6,7 +6,7 @@ from enum import IntEnum
 class DeviceType(IntEnum):
     CPU = 0
     NVIDIA = 1
-    MUSA = 2
+    ILUVATAR = 2
     COUNT = 3
 
 

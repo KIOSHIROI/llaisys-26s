@@ -3,6 +3,6 @@
 
 #include <cstddef>
 
-namespace llaisys::ops::musa {
+namespace llaisys::ops::iluvatar {
 void add(std::byte *c, const std::byte *a, const std::byte *b, llaisysDataType_t type, size_t size);
 }

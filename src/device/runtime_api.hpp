@@ -18,8 +18,8 @@ const LlaisysRuntimeAPI *getRuntimeAPI();
 }
 #endif
 
-#ifdef ENABLE_MUSA_API
-namespace musa {
+#ifdef ENABLE_ILUVATAR_API
+namespace iluvatar {
 const LlaisysRuntimeAPI *getRuntimeAPI();
 }
 #endif

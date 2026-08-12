@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-namespace llaisys::ops::musa {
+namespace llaisys::ops::iluvatar {
 void rope(std::byte *out, const std::byte *in, const std::byte *pos_ids, float theta,
           llaisysDataType_t type, size_t seqlen, size_t nkvhead, size_t dim);
 }
