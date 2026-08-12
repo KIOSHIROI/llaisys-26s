@@ -4,6 +4,7 @@
 
 template <typename T>
 void linear_(T *out, const T *in, const T *weight, const T *bias, const size_t u, const size_t h, const size_t v) {
+    #pragma omp parallel for
     for(size_t i = 0; i < u; ++ i) {
         for (size_t k = 0; k < v; ++ k) {
             float value = llaisys::utils::cast<float>(bias[k]);

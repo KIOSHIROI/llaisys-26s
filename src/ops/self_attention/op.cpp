@@ -1,5 +1,6 @@
 #include "op.hpp"
 #include "cpu/self_attention_cpu.cpp"
+#include "nvidia/self_attention_nvidia.hpp"
 namespace llaisys::ops {
 void self_attention(tensor_t attn_val, tensor_t q, tensor_t k, tensor_t v, float scale) {
     llaisys::core::context().setDevice(attn_val->deviceType(), attn_val->deviceId());

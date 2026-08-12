@@ -1,5 +1,6 @@
 #include "op.hpp"
 #include "cpu/embedding_cpu.hpp"
+#include "nvidia/embedding_nvidia.hpp"
 
 namespace llaisys::ops {
 void embedding(tensor_t out, tensor_t index, tensor_t weight) {

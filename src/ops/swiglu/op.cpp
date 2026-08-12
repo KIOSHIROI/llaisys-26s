@@ -1,5 +1,6 @@
 #include "op.hpp"
 #include "cpu/swiglu_cpu.hpp"
+#include "nvidia/swiglu_nvidia.hpp"
 namespace llaisys::ops {
 void swiglu(tensor_t out, tensor_t gate, tensor_t up) {
         llaisys::core::context().setDevice(out->deviceType(), out->deviceId());
